@@ -2,191 +2,23 @@
 
 \documentclass[12pt,oneside]{book}
 
-\newlength{\textpt}
-\setlength{\textpt}{12pt}
-    
-%========基本必备的宏包========%
-\RequirePackage{calc,float,moresize}
-%\RequirePackage[onehalfspacing]{setspace}
-\linespread{1.5}
-%1.3 onehalfspacing
-%1.6 doublespacing
-
-%===========加入目录 某章或某节=====%
-\makeatletter
-
-\newcommand{\addchtoc}[1]{
-        \cleardoublepage
-        \phantomsection
-        \addcontentsline{toc}{chapter}{#1}}
-
-\newcommand{\addsectoc}[1]{
-        \phantomsection
-        \addcontentsline{toc}{section}{#1}}
-
-%===========全文基本格式==========%
-\setlength{\parskip}{1.6ex plus 0.2ex minus 0.2ex}   %段落間距
-\setlength{\parindent}{\textpt * \real{2}}
-\RequirePackage{indentfirst} 
-
-%=========页面设置=========%
-\RequirePackage[a4paper, %a4paper size 297:210 mm
-  bindingoffset=0mm,%裝訂線
-  top=35mm,  %上邊距 包括頁眉
-  bottom=30mm,%下邊距 包括頁腳
-  inner=30mm,  %左邊距or inner
-  outer=30mm,  %右邊距or  outer
-  headheight=10mm,%頁眉
-  headsep=15mm,%
-  footskip=15mm,%
-  marginparsep=0pt, %旁註與正文間距
-  marginparwidth=0em,includemp=false% 旁註寬度計入width%旁註寬度
-  ]{geometry}
-
-%color
-\RequirePackage[table,svgnames]{xcolor}
-
-%================字體================%
-%设置数学字体
-\RequirePackage{amssymb,amsmath}
-\RequirePackage{stmaryrd}
-\everymath{\displaystyle}
-
-\RequirePackage{fontspec}
-%設置英文字體
-\setmainfont[Mapping=tex-text]{DejaVu Serif}
-\setsansfont[Mapping=tex-text]{DejaVu Sans}
-\setmonofont[Mapping=tex-text]{DejaVu Sans Mono}
-
-
-%中文環境
-\RequirePackage[]{xeCJK}
-\xeCJKsetup{PunctStyle=plain}
-\setCJKmainfont[FallBack=DejaVu Serif, ItalicFont=KaiTi]{Source Han Serif CN}
-\setCJKsansfont[FallBack=DejaVu Sans]{Source Han Sans CN}
-\setCJKmonofont[FallBack=DejaVu Sans Mono]{KaiTi}
-
-
-%%===============中文化=========%
-\renewcommand\contentsname{目~录}
-\renewcommand\listfigurename{插图目录}
-\renewcommand\listtablename{表格目录}
-\renewcommand\bibname{参~考~文~献}
-\renewcommand\indexname{索~引}
-\renewcommand\figurename{图}
-\renewcommand\tablename{表}
-\renewcommand\partname{部分}
-\renewcommand\appendixname{附录}
-\renewcommand{\today}{\number\year{}年\number\month{}月\number\day{}日}
-
-
-%=======页眉页脚格式=========%
-\RequirePackage{fancyhdr}   %頁眉頁腳
-\RequirePackage{zhnumber}  %计数器中文化
-\pagestyle{fancy}
-\renewcommand{\sectionmark}[1]
-{\markright{第\zhnumber{\arabic{section}}节~~#1}{}}
-
-\fancypagestyle{plain}{%
-    \fancyhf{}
-    \renewcommand{\headrulewidth}{0pt}
-    \renewcommand{\footrulewidth}{0pt}
-    \fancyhf[HR]{\ttfamily \footnotesize \rightmark }
-    \fancyhf[FR]{\thepage}}
-\pagestyle{plain}
-
-
-%=========章節標題設計=========%
-\RequirePackage{titlesec}
-%修改part
-\titleformat{\part}{\huge\sffamily}{}{0em}{}
-%修改chapter
-\titleformat{\chapter}{\LARGE\sffamily}{}{0em}{}
-%修改section
-\titleformat{\section}{\Large\sffamily}{}{0em}{}
-%修改subsection
-\titleformat{\subsection}{\large\sffamily}{}{0em}{}
-%修改subsubsection
-\titleformat{\subsubsection}{\normalsize\sffamily}{}{0em}{}
-
-
-%================目录===============%
-%toc label to contents space   dynamic adjust
-\RequirePackage{tocloft}%
-\renewcommand{\numberline}[1]{%
-  \@cftbsnum #1\@cftasnum~\@cftasnumb%
-}
-
-%==============超鏈接===============%
-\RequirePackage[colorlinks=true,linkcolor=blue,citecolor=blue]{hyperref} %設置書簽和目錄鏈接等
-\newcommand{\hlabel}[1]{\phantomsection \label{#1}}%某一小段的引用
-
-
-%=================文字強調=========%
-\RequirePackage{xeCJKfntef}
-
-\let\oldemph\emph % Save emph in oldemph
-\renewcommand{\emph}[1]{\textcolor{blue}{\textbf{#1}}}  
-
-%==================插入圖片=======%
-\RequirePackage{wrapfig}
-\RequirePackage{graphicx}
-\graphicspath{{figures/}}
-%change the caption style a little like 1-1
-\renewcommand{\thefigure}{\arabic{chapter}-\arabic{figure}}
-
-%插入代码
-\RequirePackage{fancyvrb} 
-\fvset{frame=lines,tabsize=4 ,baselinestretch=1.8, fontsize=\footnotesize}
-
-
-% 框线表示文章引用
-\RequirePackage{mdframed} 
-\mdfsetup{frametitlealignment=\center}
-\newmdenv[frametitlebackgroundcolor=gray!20, linewidth=1pt,
-                    frametitlerulewidth=1pt, frametitlerule=true]{bookref}
- 
- 
-%========脚注=========%
-\RequirePackage{tikz} 
-\newcommand*\circled[1]{
-\tikz[baseline=(char.base)]
-\node[shape=circle,draw,inner sep=0.4pt,minimum size=4pt] (char) {#1};}
-
-\newcommand*\circledarabic[1]{\circled{\arabic{#1}}}
-
-\RequirePackage{perpage} %the perpage package
-\MakePerPage{footnote} %the perpage package command
-
-\renewcommand*{\thefootnote}{\protect\circledarabic{footnote}}
-
-\renewcommand\@makefntext[1]{\vspace{5pt}\noindent
-\makebox[20pt][c]{\fontsize{10pt}{12pt}\@thefnmark}
-\fontsize{10pt}{12pt}\selectfont #1}
-
-\setlength{\skip\footins}{20pt plus 10pt}
-%main body 与脚注之间的距离
-
-\makeatother
-
-
+\usepackage{mybook}
+\usepackage{mybookcover}
+  
 
 \title{生活和投资}
 \author{Wander}
-\hypersetup{
-  pdfkeywords={},
-  pdfsubject={},
-  pdfcreator={Wander}}
 
   
 \begin{document}
-\maketitle
+\makemytitleA
 
+\flypage{感谢上帝}
 
 \frontmatter 
-\addchtoc{前言}
-\chapter*{前言}
-
+\addchtoc{序言}
+\chapter*{序言}
+讨论了生活和投资上的一些事情。
 
 \addchtoc{目录}
 \setcounter{tocdepth}{2}    
@@ -574,7 +406,9 @@ Mental representations (or mental imagery) enable representing things that have 
 
 那些不能实证的命题，都只能算作那人的自我信念；那些不能去实践的话语，都只能算作那人自我无害的幻想；那些信，若他连自我内心的改变行动都不愿意去做，则只是自欺欺人罢了。
 
-\section{圣经的故事}
+
+
+\section{圣经}
 \begin{bookref}[frametitle={\cite{圣经的故事}}]
 在这里，耶和华对他们说：“听着，这个很重要。你们可以尽情地享受花园里所有树上的果实，但这棵树的果实能让人明白善恶有别。人类若吃了此树的果实，便会对自己的行为有善恶之分，这就意味着其心灵不再安宁。因此，你们不要吃此树的果实，否则后果不堪设想。”
 
@@ -585,6 +419,18 @@ Mental representations (or mental imagery) enable representing things that have 
 
 这是人对上帝的首次不信，也是人因不信而受到的首次责罚：逐出伊甸园。
 
+
+\begin{bookref}[frametitle={\cite{新约圣经}}]
+所以你们祷告，要这样说，我们在天上的父，愿人都尊你的名为圣。
+
+愿你的国降临，愿你的旨意行在地上，如同行在天上。
+
+我们日用的饮食，今日赐给我们。
+
+免我们的债，如同我们免了人的债。
+
+不叫我们遇见试探，救我们脱离邪恶，因为国度，权柄，荣耀，全是你的，直到永远，阿们。
+\end{bookref}
 
 
 \chapter{二十一世纪前期对世界各地葬礼的观察}
@@ -4381,7 +4227,7 @@ IPO招股说明书还透露，eToys将使用出售股票的部分收入来收购
 \begin{itemize}
 \item 投每位董事的反对票，以让其知道你不同意他们的行为
 \item 参加股东大会，并阐述自己的权利
-\item 找一个针对股票业务的网上信息公告栏（比如，在http://finance.yahoo.com这一网站上的公告栏），号召其他投资者加入到你的行动中来
+\item 找一个针对股票业务的网上信息公告栏，号召其他投资者加入到你的行动中来
 \end{itemize}
 
 格雷厄姆的另外一个想法对如今的投资者会有帮助：
@@ -4728,7 +4574,6 @@ K线图的技术分析流多少有点扯淡，不过K线图就作为一种图示
 \bibitem[金融学从入门到精通]{金融学从入门到精通} 《金融学从入门到精通》 by 武永梅 at 2017.
 \bibitem[从零开始学K线]{从零开始学K线} 《从零开始学K线》by 唐韩 at 2012. 
 \bibitem[聪明的投资者]{聪明的投资者} 《聪明的投资者》by 本杰明·格雷厄姆 \& 贾森·兹威格[评] \& 王中华[译] \& 黄一义[译] at 2016.
-\bibitem[名人传]{名人传} 《名人传》 by [法]罗曼·罗兰 \& 傅雷[译] at 2018.
 \bibitem[轻断食]{轻断食}  《轻断食：正在横扫全球的瘦身革命》 by 麦克尔·莫斯利 \& 咪咪·史宾赛 at 2019.
 \bibitem[指数基金投资从入门到精通]{指数基金投资从入门到精通}  《指数基金投资从入门到精通》 by 老罗 at 2018.
 \bibitem[疯狂的尿酸]{疯狂的尿酸}  《疯狂的尿酸：不止是痛风》 by 戴维·珀尔马特 \& 王家宁[译] at 2023.
@@ -4736,6 +4581,7 @@ K线图的技术分析流多少有点扯淡，不过K线图就作为一种图示
 \bibitem[自控力]{自控力}  《自控力》 by [美]麦格尼格尔  \& 王岑卉[译] at 2012.
 \bibitem[刻意练习]{刻意练习} 《刻意练习：如何从新手到大师》 by [美]安德斯·艾利克森 \& [美]罗伯特·普尔 \& 王正林[译] at 2016.
 \bibitem[圣经的故事]{圣经的故事} 《圣经的故事》 by [美]房龙 \& 朱振武[译] in 上海译文出版社.
+\bibitem[新约圣经四福音]{新约圣经四福音} 《新约圣经四福音》by 和合本.
 \end{thebibliography}
 
 
