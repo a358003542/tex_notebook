@@ -5,5 +5,5 @@
 ## 制作epub
 
 ```
-pandoc -o main.epub main.tex --metadata-file=epub.yaml --resource-path=figures
+pywander_text.exe convert main.tex
 ```
